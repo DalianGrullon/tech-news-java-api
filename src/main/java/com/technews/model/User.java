@@ -3,12 +3,14 @@ package com.technews.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
-@JsonIgnoreProperties
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = "User")
-public class User {
+public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
@@ -27,6 +29,9 @@ public class User {
 
     @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Comment> comments;
+
+    public User() {
+    }
 
     public User(Integer id, String username, String email, String password) {
         this.id = id;
